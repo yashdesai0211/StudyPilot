@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#17243a">
+  <meta name="description" content="StudyPilot — a private, offline-first academic progress companion.">
+  <title>StudyPilot — Your Study, Organised</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#" aria-label="StudyPilot home">
+        <span class="brand-mark">S</span><span><strong>StudyPilot</strong><small>STUDY SMARTER. STAY CONSISTENT.</small></span>
+      </a>
+      <nav class="nav" aria-label="Main navigation">
+        <button class="nav-item active" data-view="overview"><span>◫</span> Overview</button>
+        <button class="nav-item" data-view="subjects"><span>▤</span> Subjects & syllabus</button>
+        <button class="nav-item" data-view="revision"><span>↻</span> Revision queue</button>
+        <button class="nav-item" data-view="practice"><span>✓</span> Practice & quizzes</button>
+        <button class="nav-item" data-view="analytics"><span>▥</span> Academic insights</button>
+        <button class="nav-item" data-view="notes"><span>▧</span> Notes</button>
+        <button class="nav-item" data-view="timer"><span>◷</span> Focus timer</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="privacy-mini"><span class="status-dot"></span><div><b>Private by design</b><small>Your data stays on this device</small></div></div>
+        <button class="nav-item" data-view="settings"><span>⚙</span> Settings & backup</button>
+        <p class="side-foot">StudyPilot<br>Version 1.0.0</p>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobileMenu" aria-label="Open navigation">☰</button>
+        <div><span class="top-kicker" id="todayLabel">YOUR LEARNING SPACE</span><h1 id="pageTitle">Overview</h1></div>
+        <div class="top-actions"><span class="offline-pill"><i></i> Offline-ready</span><button class="avatar" id="profileShortcut" title="Edit local profile">S</button></div>
+      </header>
+
+      <section class="view active" id="view-overview">
+        <div class="hero">
+          <div><p class="eyebrow">YOUR ACADEMIC INTELLIGENCE</p><h2 id="greeting">Make progress you can measure.</h2><p class="muted">Know what you've studied, what needs practice, and what deserves your attention next.</p></div>
+          <div class="hero-art" aria-hidden="true"><span>✦</span><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div></div>
+        </div>
+        <div class="welcome-strip" id="profileStrip"><div><b>Make this space yours</b><p>Add optional class details to personalise your dashboard. No account or sign-up needed.</p></div><button class="btn btn-light" id="setupProfile">Set preferences</button></div>
+        <div class="section-head"><div><p class="eyebrow">AT A GLANCE</p><h2>Your progress</h2></div><span class="muted small" id="progressCaption">Based on your chapter records</span></div>
+        <div class="stats-grid">
+          <article class="stat-card"><span class="stat-icon blue">▤</span><p>Subjects</p><strong id="statSubjects">0</strong><small>In your workspace</small></article>
+          <article class="stat-card"><span class="stat-icon green">✓</span><p>Mastered chapters</p><strong id="statMastered">0</strong><small>Marked as confident</small></article>
+          <article class="stat-card"><span class="stat-icon amber">↻</span><p>Due for revision</p><strong id="statDue">0</strong><small>Based on your review dates</small></article>
+          <article class="stat-card"><span class="stat-icon violet">◎</span><p>Practice accuracy</p><strong id="statAccuracy">—</strong><small id="statAttempts">No quiz attempts yet</small></article>
+        </div>
+        <div class="two-col">
+          <article class="panel"><div class="panel-head"><div><p class="eyebrow">NEXT BEST ACTION</p><h3>What should I do next?</h3></div><span class="pill">StudyPilot insight</span></div><div id="nextAction" class="insight-box"></div></article>
+          <article class="panel"><div class="panel-head"><div><p class="eyebrow">STUDY MOMENTUM</p><h3>Recent activity</h3></div><button class="text-btn" data-go="analytics">View insights →</button></div><div id="recentActivity" class="activity-list"><p class="empty">Your study activity will appear here.</p></div></article>
+        </div>
+        <article class="panel"><div class="panel-head"><div><p class="eyebrow">SUBJECT SNAPSHOT</p><h3>Progress by subject</h3></div><button class="text-btn" data-go="subjects">Manage syllabus →</button></div><div id="subjectSnapshot" class="snapshot-list"></div></article>
+      </section>
+
+      <section class="view" id="view-subjects">
+        <div class="page-intro"><div><p class="eyebrow">BUILD YOUR LEARNING MAP</p><h2>Subjects & syllabus</h2><p class="muted">Add your subjects and chapters. StudyPilot tracks learning status and review needs without assuming that reading equals understanding.</p></div><button class="btn btn-primary" id="addSubjectBtn">＋ Add subject</button></div>
+        <div id="subjectsList" class="subject-list"></div>
+      </section>
+
+      <section class="view" id="view-revision">
+        <div class="page-intro"><div><p class="eyebrow">REMEMBER MORE EFFECTIVELY</p><h2>Revision queue</h2><p class="muted">Review dates are suggested from your confidence rating. You can change a chapter's status at any time.</p></div><button class="btn btn-secondary" id="refreshRevision">Refresh queue</button></div>
+        <div id="revisionList"></div>
+      </section>
+
+      <section class="view" id="view-practice">
+        <div class="page-intro"><div><p class="eyebrow">CHECK YOUR UNDERSTANDING</p><h2>Practice & quizzes</h2><p class="muted">Create your own question sets and record results. StudyPilot never pretends a score is a board-exam prediction.</p></div><button class="btn btn-primary" id="createQuizBtn">＋ Create quiz</button></div>
+        <div class="two-col practice-layout"><article class="panel"><div class="panel-head"><h3>Your quizzes</h3></div><div id="quizList"></div></article><article class="panel"><div class="panel-head"><h3>Practice history</h3></div><div id="quizHistory"></div></article></div>
+        <div id="quizRunner" class="panel hidden"></div>
+      </section>
+
+      <section class="view" id="view-analytics">
+        <div class="page-intro"><div><p class="eyebrow">UNDERSTAND YOUR PREPARATION</p><h2>Academic insights</h2><p class="muted">A transparent summary of the information you record—not a prediction of marks or a judgement of ability.</p></div></div>
+        <div class="stats-grid compact-stats"><article class="stat-card"><p>Chapters tracked</p><strong id="anaTracked">0</strong></article><article class="stat-card"><p>Learning completed</p><strong id="anaCompletion">0%</strong></article><article class="stat-card"><p>Quiz accuracy</p><strong id="anaAccuracy">—</strong></article><article class="stat-card"><p>Focus time</p><strong id="anaFocus">0 min</strong></article></div>
+        <div class="two-col"><article class="panel"><h3>Where to focus</h3><div id="focusRecommendations"></div></article><article class="panel"><h3>Preparation reality check</h3><div id="realityCheck"></div></article></div>
+        <article class="panel"><h3>Subject progress</h3><div id="analyticsSubjects"></div></article>
+      </section>
+
+      <section class="view" id="view-notes">
+        <div class="page-intro"><div><p class="eyebrow">YOUR PERSONAL KNOWLEDGE SPACE</p><h2>Notes</h2><p class="muted">Keep your own summaries, questions and reminders on this device.</p></div><button class="btn btn-primary" id="addNoteBtn">＋ New note</button></div>
+        <div id="notesList" class="notes-grid"></div>
+      </section>
+
+      <section class="view" id="view-timer">
+        <div class="page-intro"><div><p class="eyebrow">FOCUS WITH INTENTION</p><h2>Focus timer</h2><p class="muted">A simple timer. It does not block your device or monitor your activity.</p></div></div>
+        <div class="timer-wrap panel"><div class="timer-ring"><div><strong id="timerDisplay">25:00</strong><span id="timerStatus">READY TO FOCUS</span></div></div><div class="timer-controls"><label>Session length <select id="timerLength"><option value="15">15 minutes</option><option value="25" selected>25 minutes</option><option value="40">40 minutes</option><option value="50">50 minutes</option></select></label><button class="btn btn-primary" id="timerStart">Start focus</button><button class="btn btn-secondary" id="timerReset">Reset</button></div><p class="muted small" id="timerMessage">Completed focus sessions are counted in your local analytics.</p></div>
+      </section>
+
+      <section class="view" id="view-settings">
+        <div class="page-intro"><div><p class="eyebrow">YOUR DATA, YOUR CHOICE</p><h2>Settings & backup</h2><p class="muted">StudyPilot has no account system and sends no study data to a server.</p></div></div>
+        <div class="settings-grid">
+          <article class="panel"><h3>Local preferences</h3><div id="profileForm"></div></article>
+          <article class="panel"><h3>Backup & restore</h3><p class="muted small">Export a backup regularly. Browser storage can be cleared by device settings, and this app cannot recover data that has been deleted without a backup.</p><div class="button-stack"><button class="btn btn-primary" id="exportBtn">Export my data</button><label class="file-button">Import backup<input type="file" id="importFile" accept="application/json"></label></div><p class="tiny muted">Only import backup files you trust. Imported data replaces the current StudyPilot data.</p></article>
+          <article class="panel"><h3>Privacy controls</h3><p class="muted small">You can remove all locally stored StudyPilot data from this browser.</p><button class="btn btn-danger" id="deleteDataBtn">Delete all my data</button></article>
+          <article class="panel"><h3>About StudyPilot</h3><p class="muted small">StudyPilot is an offline-first academic organisation and self-assessment tool created by Yash Desai. It is not affiliated with or endorsed by the Maharashtra State Board or any school.</p><p class="tiny muted">Version 1.0.0 · No external APIs · No analytics trackers · No account required.</p><p class="tiny"><a href="privacy.html">Privacy notice</a> · <a href="terms.html">Terms of use</a></p></article>
+        </div>
+      </section>
+
+      <footer class="app-footer">StudyPilot <span>·</span> Created by Yash Desai <span>·</span> Your learning data stays on this device</footer>
+    </main>
+  </div>
+
+  <dialog id="modal" class="modal"><form method="dialog" class="modal-card" id="modalForm"><button class="modal-close" value="cancel" aria-label="Close">×</button><div id="modalContent"></div></form></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="storage/database.js"></script>
+  <script src="core/academic-engine.js"></script>
+  <script src="core/revision-engine.js"></script>
+  <script src="core/analytics-engine.js"></script>
+  <script src="security/validation.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

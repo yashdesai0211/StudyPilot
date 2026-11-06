@@ -1,0 +1,54 @@
+name: Build Android APK and Windows EXE
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+permissions:
+  contents: write
+jobs:
+  android-apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/gradle-build-action@v3
+        with:
+          gradle-version: '8.9'
+          arguments: -p Android assembleDebug
+      - name: Name APK
+        run: cp Android/app/build/outputs/apk/debug/app-debug.apk StudyPilot-Android.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: StudyPilot-Android-APK
+          path: StudyPilot-Android.apk
+  windows-exe:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build standalone EXE
+        shell: cmd
+        run: Windows\build.bat
+      - uses: actions/upload-artifact@v4
+        with:
+          name: StudyPilot-Windows-EXE
+          path: dist/StudyPilot.exe
+  publish-release-assets:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: [android-apk, windows-exe]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: release-assets
+      - name: Attach downloads to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            release-assets/StudyPilot-Android-APK/StudyPilot-Android.apk
+            release-assets/StudyPilot-Windows-EXE/StudyPilot.exe
