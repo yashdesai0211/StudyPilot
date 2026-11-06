@@ -1,7 +1,8 @@
 name: Build Android APK and Windows EXE
 on:
   workflow_dispatch:
-  push:
+   push:
+    branches: [main]
     tags: ['v*']
 permissions:
   contents: write
